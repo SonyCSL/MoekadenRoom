@@ -1,0 +1,802 @@
+{
+"version" : "120329"
+,"width" : 854
+,"height" : 480
+, "type" : "stacklayers"
+, "contents" :
+	[
+	{ "type" : "area"
+	, "x" : 0
+	, "y" : 0
+	, "width" : 854
+	, "height" : 480
+	, "name" : "AllScr"
+	, "behavior" : "subscreen"
+	},
+	{ "type" : "gamelayers"
+	, "name" : "GameLayers"
+	, "contents" :
+		[
+		{ "type" : "image"
+		, "x" : 35
+		, "y" : 292
+		, "url" : "GameLayers.IconArea.png"
+		, "name" : "IconArea"
+		, "behavior" : "speaker_icon_area"
+		},
+		{ "type" : "area"
+		, "x" : 150
+		, "y" : 6
+		, "width" : 545
+		, "height" : 332
+		, "name" : "SelectionArea"
+		, "behavior" : "selection_area"
+		, "order" : "vertical"
+		},
+		{ "type" : "image"
+		, "x" : 158
+		, "y" : 126
+		, "url" : "GameLayers.SelBtn.png"
+		, "name" : "SelBtn"
+		, "behavior" : "selection_button"
+		, "fontsize" : 28
+		, "fontcolor" : "255-255-255"
+		, "align" : "center"
+		, "margin" : 10
+		},
+		{ "type" : "image"
+		, "x" : 738
+		, "y" : 410
+		, "url" : "GameLayers.MsgPrgressBtn.png"
+		, "name" : "MsgPrgressBtn"
+		, "behavior" : "message_progress_button"
+		},
+		{ "type" : "image"
+		, "x" : 38
+		, "y" : 314
+		, "url" : "GameLayers.NameArea.png"
+		, "name" : "NameArea"
+		, "behavior" : "name_area"
+		, "fontsize" : 21
+		, "fontcolor" : "255-255-255"
+		, "align" : "center"
+		, "margin" : 2
+		},
+		{ "type" : "image"
+		, "x" : 38
+		, "y" : 360
+		, "url" : "GameLayers.MsgArea.png"
+		, "name" : "MsgArea"
+		, "behavior" : "message_area"
+		, "fontsize" : 21
+		, "margin" : 12
+		, "fontcolor" : "218-47-68"
+		, "fontblurcolor" : "255-255-255"
+		}
+		]
+	},
+	{ "type" : "stacklayers"
+	, "name" : "SubScreens"
+	, "contents" :
+		[
+		{ "type" : "area"
+		, "x" : 76
+		, "y" : 0
+		, "width" : 387
+		, "height" : 455
+		, "name" : "LeftScr"
+		, "behavior" : "subscreen"
+		},
+		{ "type" : "area"
+		, "x" : 395
+		, "y" : 0
+		, "width" : 387
+		, "height" : 454
+		, "name" : "RightScr"
+		, "behavior" : "subscreen"
+		},
+		{ "type" : "area"
+		, "x" : 223
+		, "y" : 0
+		, "width" : 387
+		, "height" : 455
+		, "name" : "CenterScr"
+		, "behavior" : "subscreen"
+		}
+		]
+	},
+	{ "type" : "switchlayers"
+	, "name" : "InOutEffect"
+	, "cid" : -1
+	, "key" : "InOutEffect"
+	, "contents" :
+		[
+		{ "type" : "stacklayers"
+		, "name" : "In"
+		, "value" : "In"
+		, "contents" :
+			[
+			{ "type" : "image"
+			, "x" : 354
+			, "y" : 178
+			, "url" : "InOutEffect.In.Star1.png"
+			, "name" : "InStar1"
+			},
+			{ "type" : "image"
+			, "x" : 354
+			, "y" : 178
+			, "url" : "InOutEffect.In.Star2.png"
+			, "name" : "InStar2"
+			}
+			]
+		},
+		{ "type" : "image"
+		, "x" : 344
+		, "y" : 169
+		, "url" : "InOutEffect.Out.png"
+		, "name" : "OutStar"
+		, "value" : "Out"
+		}
+		]
+	},
+
+	{ "type" : "stacklayers"
+	, "name" : "Devices"
+	, "contents" :
+		[
+		{ "type" : "switchlayers"
+		, "name" : "AirCon"
+		, "key" : "AirCon"
+		, "contents" :
+			[
+			{ "type" : "stacklayers"
+			, "name" : "On"
+			, "value" : "On"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 586
+				, "y" : 11
+				, "url" : "Devices.AirCon.On.AirconTempSetting.png"
+				, "name" : "AirconTempSetting"
+				, "behavior" : "message_area"
+				, "fontsize" : 30
+				, "align" : "center"
+				, "margin" : 0
+				},
+				{ "type" : "stacklayers"
+				, "name" : "AirconImage"
+				, "onclick" : "onAirconClick"
+				, "contents" :
+					[
+					{ "type" : "switchlayers"
+					, "name" : "Wind"
+					, "key" : "AirconWind"
+					, "cid" : -1
+					, "contents" :
+						[
+						{ "type" : "image"
+						, "x" : 551
+						, "y" : 63
+						, "url" : "Devices.AirCon.On.AirconImage.Wind.Cool.png"
+						, "name" : "Cool"
+						, "value" : "Cool"
+						},
+						{ "type" : "image"
+						, "x" : 556
+						, "y" : 63
+						, "url" : "Devices.AirCon.On.AirconImage.Wind.Hot.png"
+						, "name" : "Hot"
+						, "value" : "Hot"
+						},
+						{ "type" : "image"
+						, "x" : 571
+						, "y" : 66
+						, "url" : "Devices.AirCon.On.AirconImage.Wind.Wind.png"
+						, "name" : "Wind"
+						, "value" : "Wind"
+						},
+						{ "type" : "image"
+						, "x" : 571
+						, "y" : 66
+						, "url" : "Devices.AirCon.On.AirconImage.Wind.Dry.png"
+						, "name" : "Dry"
+						, "value" : "Dry"
+						}
+						]
+					},
+					{ "type" : "switchlayers"
+					, "name" : "Body"
+					, "key" : "AirconPower"
+					, "contents" :
+						[
+						{ "type" : "image"
+						, "x" : 575
+						, "y" : 2
+						, "url" : "Devices.AirCon.On.AirconImage.Body.Off.png"
+						, "name" : "Off"
+						, "value" : "Off"
+						},
+						{ "type" : "image"
+						, "x" : 575
+						, "y" : 2
+						, "url" : "Devices.AirCon.On.AirconImage.Body.On.png"
+						, "name" : "On"
+						, "value" : "On"
+						}
+						]
+					},
+					{ "type" : "image"
+					, "x" : 567
+					, "y" : 0
+					, "url" : "Devices.AirCon.On.AirconImage.Glow.png"
+					, "name" : "Glow"
+					},
+					{ "type" : "switchlayers"
+					, "name" : "AirconShadow"
+					, "key" : "AirconShadow"
+					, "contents" :
+						[
+						{ "type" : "image"
+						, "x" : 583
+						, "y" : 2
+						, "url" : "Devices.AirCon.On.AirconImage.AirconShadow.On.png"
+						, "name" : "On"
+						, "value" : "On"
+						}
+						]
+					}
+					]
+				}
+				]
+			}
+			]
+		},
+		{ "type" : "switchlayers"
+		, "name" : "FloorLight"
+		, "key" : "FloorLight"
+		, "contents" :
+			[
+			{ "type" : "stacklayers"
+			, "name" : "On"
+			, "onclick" : "onFloorLight"
+			, "value" : "On"
+			, "contents" :
+				[
+				{ "type" : "switchlayers"
+				, "name" : "LightPower"
+				, "key" : "LightPower"
+				, "contents" :
+					[
+					{ "type" : "image"
+					, "x" : 47
+					, "y" : 84
+					, "url" : "Devices.FloorLight.On.LightPower.Off.png"
+					, "name" : "Off"
+					, "value" : "Off"
+					},
+					{ "type" : "image"
+					, "x" : 47
+					, "y" : 84
+					, "url" : "Devices.FloorLight.On.LightPower.On.png"
+					, "name" : "On"
+					, "value" : "On"
+					}
+					]
+				},
+				{ "type" : "image"
+				, "x" : 45
+				, "y" : 80
+				, "url" : "Devices.FloorLight.On.On.png"
+				, "name" : "On"
+				}
+				]
+			}
+			]
+		},
+		{ "type" : "switchlayers"
+		, "name" : "Curtain"
+		, "key" : "Curtain"
+		, "contents" :
+			[
+			{ "type" : "switchlayers"
+			, "name" : "On"
+			, "key" : "CurtainState"
+			, "onclick" : "onCurtain"
+			, "value" : "On"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 244
+				, "y" : 30
+				, "url" : "Devices.Curtain.On.Open.png"
+				, "name" : "Open"
+				, "value" : "Open"
+				},
+				{ "type" : "image"
+				, "x" : 256
+				, "y" : 37
+				, "url" : "Devices.Curtain.On.Close.png"
+				, "name" : "Close"
+				, "value" : "Close"
+				}
+				]
+			}
+			]
+		},
+		{ "type" : "switchlayers"
+		, "name" : "Calendar"
+		, "cid" : -1
+		, "onclick" : "onCalendarClick"
+		, "key" : "Calendar"
+		, "contents" :
+			[
+			{ "type" : "image"
+			, "x" : 163
+			, "y" : 107
+			, "url" : "Devices.Calendar.On.png"
+			, "name" : "On"
+			, "value" : "On"
+			}
+			]
+		}
+		]
+	},
+	{ "type" : "stacklayers"
+	, "name" : "Sensors"
+	, "contents" :
+		[
+		{ "type" : "switchlayers"
+		, "name" : "RoomTempSensor"
+		, "key" : "RoomTempSensor"
+		, "contents" :
+			[
+			{ "type" : "stacklayers"
+			, "name" : "On"
+			, "value" : "On"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 195
+				, "y" : 53
+				, "url" : "Sensors.RoomTempSensor.On.RoomTemp.png"
+				, "name" : "RoomTemp"
+				, "behavior" : "message_area"
+				, "fontsize" : 30
+				, "align" : "left"
+				, "margin" : 0
+				},
+				{ "type" : "switchlayers"
+				, "name" : "RoomTempDisp"
+				, "key" : "RoomTempDisp"
+				, "contents" :
+					[
+					{ "type" : "image"
+					, "x" : 167
+					, "y" : 49
+					, "url" : "Sensors.RoomTempSensor.On.RoomTempDisp.Low.png"
+					, "name" : "Low"
+					, "value" : "Low"
+					},
+					{ "type" : "image"
+					, "x" : 167
+					, "y" : 49
+					, "url" : "Sensors.RoomTempSensor.On.RoomTempDisp.Mid.png"
+					, "name" : "Mid"
+					, "value" : "Mid"
+					},
+					{ "type" : "image"
+					, "x" : 167
+					, "y" : 49
+					, "url" : "Sensors.RoomTempSensor.On.RoomTempDisp.Hi.png"
+					, "name" : "Hi"
+					, "value" : "Hi"
+					}
+					]
+				},
+				{ "type" : "image"
+				, "x" : 163
+				, "y" : 47
+				, "url" : "Sensors.RoomTempSensor.On.glow.png"
+				, "name" : "glow"
+				}
+				]
+			}
+			]
+		},
+		{ "type" : "switchlayers"
+		, "name" : "ExteriorTempSensor"
+		, "cid" : -1
+		, "key" : "ExteriorTempSensor"
+		, "contents" :
+			[
+			{ "type" : "stacklayers"
+			, "name" : "On"
+			, "value" : "On"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 330
+				, "y" : 169
+				, "url" : "Sensors.ExteriorTempSensor.On.ExteriorTemp.png"
+				, "name" : "ExteriorTemp"
+				, "behavior" : "message_area"
+				, "fontsize" : 30
+				, "align" : "left"
+				, "margin" : 0
+				},
+				{ "type" : "switchlayers"
+				, "name" : "ExteriorTempDisp"
+				, "key" : "ExteriorTempDisp"
+				, "contents" :
+					[
+					{ "type" : "image"
+					, "x" : 300
+					, "y" : 162
+					, "url" : "Sensors.ExteriorTempSensor.On.ExteriorTempDisp.Low.png"
+					, "name" : "Low"
+					, "value" : "Low"
+					},
+					{ "type" : "image"
+					, "x" : 300
+					, "y" : 162
+					, "url" : "Sensors.ExteriorTempSensor.On.ExteriorTempDisp.Mid.png"
+					, "name" : "Mid"
+					, "value" : "Mid"
+					},
+					{ "type" : "image"
+					, "x" : 300
+					, "y" : 162
+					, "url" : "Sensors.ExteriorTempSensor.On.ExteriorTempDisp.Hi.png"
+					, "name" : "Hi"
+					, "value" : "Hi"
+					}
+					]
+				},
+				{ "type" : "image"
+				, "x" : 297
+				, "y" : 160
+				, "url" : "Sensors.ExteriorTempSensor.On.glow.png"
+				, "name" : "glow"
+				}
+				]
+			}
+			]
+		}
+		]
+	},
+	{ "type" : "stacklayers"
+	, "name" : "Items"
+	, "contents" :
+		[
+		{ "type" : "switchlayers"
+		, "name" : "BundenNyan"
+		, "cid" : -1
+		, "key" : "BundenNyan"
+		, "contents" :
+			[
+			{ "type" : "animlayers"
+			, "name" : "TailAirconRight"
+			, "value" : "TailAirconRight"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 777
+				, "y" : 32
+				, "url" : "Items.BundenNyan.TailAirconRight.Frame1.png"
+				, "name" : "Frame1"
+				, "duration" : 15000
+				, "random" : 5000
+				},
+				{ "type" : "image"
+				, "x" : 773
+				, "y" : 27
+				, "url" : "Items.BundenNyan.TailAirconRight.Frame2.png"
+				, "name" : "Frame2"
+				, "duration" : 200
+				},
+				{ "type" : "image"
+				, "x" : 778
+				, "y" : 1
+				, "url" : "Items.BundenNyan.TailAirconRight.Frame3.png"
+				, "name" : "Frame3"
+				, "duration" : 1000
+				, "random" : 500
+				},
+				{ "type" : "image"
+				, "x" : 773
+				, "y" : 27
+				, "url" : "Items.BundenNyan.TailAirconRight.Frame4.png"
+				, "name" : "Frame4"
+				, "duration" : 200
+				}
+				]
+			}
+			]
+		},
+		{ "type" : "stacklayers"
+		, "name" : "Bear"
+		, "contents" :
+			[
+			{ "type" : "switchlayers"
+			, "name" : "BearSunglass"
+			, "key" : "BearSunglass"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 801
+				, "y" : 228
+				, "url" : "Items.Bear.BearSunglass.On.png"
+				, "name" : "On"
+				, "value" : "On"
+				}
+				]
+			},
+			{ "type" : "switchlayers"
+			, "name" : "BearBaloon"
+			, "onclick" : "onBearBaloon"
+			, "cid" : -1
+			, "key" : "BearBaloon"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 753
+				, "y" : 144
+				, "url" : "Items.Bear.BearBaloon.On.png"
+				, "name" : "On"
+				, "value" : "On"
+				}
+				]
+			},
+			{ "type" : "switchlayers"
+			, "name" : "BearSmoke"
+			, "cid" : -1
+			, "key" : "BearSmoke"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 673
+				, "y" : 160
+				, "url" : "Items.Bear.BearSmoke.On.png"
+				, "name" : "On"
+				, "value" : "On"
+				}
+				]
+			},
+			{ "type" : "image"
+			, "x" : 768
+			, "y" : 211
+			, "url" : "Items.Bear.Base.png"
+			, "name" : "Base"
+			}
+			]
+		},
+		{ "type" : "switchlayers"
+		, "name" : "TV"
+		, "key" : "TV"
+		, "contents" :
+			[
+			{ "type" : "stacklayers"
+			, "name" : "On"
+			, "value" : "On"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 761
+				, "y" : 291
+				, "url" : "Items.TV.On.Cover.png"
+				, "name" : "Cover"
+				},
+				{ "type" : "image"
+				, "x" : 608
+				, "y" : 165
+				, "url" : "Items.TV.On.Body.png"
+				, "name" : "Body"
+				},
+				{ "type" : "switchlayers"
+				, "name" : "TVScreen"
+				, "key" : "TVScreen"
+				, "contents" :
+					[
+					{ "type" : "image"
+					, "x" : 617
+					, "y" : 175
+					, "url" : "Items.TV.On.TVScreen.Off.png"
+					, "name" : "Off"
+					, "value" : "Off"
+					},
+					{ "type" : "image"
+					, "x" : 617
+					, "y" : 175
+					, "url" : "Items.TV.On.TVScreen.On.png"
+					, "name" : "On"
+					, "value" : "On"
+					},
+					{ "type" : "image"
+					, "x" : 617
+					, "y" : 175
+					, "url" : "Items.TV.On.TVScreen.Girl.png"
+					, "name" : "Girl"
+					, "value" : "Girl"
+					}
+					]
+				}
+				]
+			}
+			]
+		},
+		{ "type" : "stacklayers"
+		, "name" : "RedCushion"
+		, "contents" :
+			[
+			{ "type" : "switchlayers"
+			, "name" : "RedCushionMouth"
+			, "key" : "RedCushionMouth"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 24
+				, "y" : 335
+				, "url" : "Items.RedCushion.RedCushionMouth.Closed.png"
+				, "name" : "Closed"
+				, "value" : "Closed"
+				},
+				{ "type" : "animlayers"
+				, "name" : "Speaking"
+				, "value" : "Speaking"
+				, "contents" :
+					[
+					{ "type" : "image"
+					, "x" : 24
+					, "y" : 335
+					, "url" : "Items.RedCushion.RedCushionMouth.Speaking.frame1.png"
+					, "name" : "frame1"
+					, "duration" : 2000
+					, "random" : 1000
+					},
+					{ "type" : "image"
+					, "x" : 24
+					, "y" : 336
+					, "url" : "Items.RedCushion.RedCushionMouth.Speaking.frame2.png"
+					, "name" : "frame2"
+					, "duration" : 2000
+					}
+					]
+				}
+				]
+			},
+			{ "type" : "image"
+			, "x" : 0
+			, "y" : 315
+			, "url" : "Items.RedCushion.Base.png"
+			, "name" : "Base"
+			}
+			]
+		},
+		{ "type" : "stacklayers"
+		, "name" : "BlueCushion"
+		, "contents" :
+			[
+			{ "type" : "switchlayers"
+			, "name" : "BlueCushionMouth"
+			, "key" : "BlueCushionMouth"
+			, "contents" :
+				[
+				{ "type" : "image"
+				, "x" : 86
+				, "y" : 322
+				, "url" : "Items.BlueCushion.BlueCushionMouth.Closed.png"
+				, "name" : "Closed"
+				, "value" : "Closed"
+				},
+				{ "type" : "animlayers"
+				, "name" : "Speaking"
+				, "value" : "Speaking"
+				, "contents" :
+					[
+					{ "type" : "image"
+					, "x" : 84
+					, "y" : 318
+					, "url" : "Items.BlueCushion.BlueCushionMouth.Speaking.Frame1.png"
+					, "name" : "Frame1"
+					, "duration" : 2000
+					, "random" : 1000
+					},
+					{ "type" : "image"
+					, "x" : 86
+					, "y" : 322
+					, "url" : "Items.BlueCushion.BlueCushionMouth.Speaking.Frame2.png"
+					, "name" : "Frame2"
+					, "duration" : 2000
+					}
+					]
+				}
+				]
+			},
+			{ "type" : "image"
+			, "x" : 45
+			, "y" : 275
+			, "url" : "Items.BlueCushion.Base.png"
+			, "name" : "Base"
+			}
+			]
+		},
+		{ "type" : "image"
+		, "x" : 0
+		, "y" : 244
+		, "url" : "Items.Couch.png"
+		, "name" : "Couch"
+		},
+		{ "type" : "image"
+		, "x" : 146
+		, "y" : 175
+		, "url" : "Items.Plant.png"
+		, "name" : "Plant"
+		},
+		{ "type" : "image"
+		, "x" : 760
+		, "y" : 289
+		, "url" : "Items.Shelf.png"
+		, "name" : "Shelf"
+		}
+		]
+	},
+	{ "type" : "image"
+	, "x" : 0
+	, "y" : 0
+	, "url" : "Background.png"
+	, "name" : "Background"
+	, "onclick" : "onBackClick"
+	},
+	{ "type" : "switchlayers"
+	, "name" : "ExteriorRain"
+	, "cid" : -1
+	, "key" : "ExteriorRain"
+	, "contents" :
+		[
+		{ "type" : "image"
+		, "x" : 255
+		, "y" : 11
+		, "url" : "ExteriorRain.On.png"
+		, "name" : "On"
+		, "value" : "On"
+		}
+		]
+	},
+	{ "type" : "switchlayers"
+	, "name" : "ExteriorWeather"
+	, "key" : "ExteriorWeather"
+	, "contents" :
+		[
+		{ "type" : "image"
+		, "x" : 255
+		, "y" : 11
+		, "url" : "ExteriorWeather.Sunny.png"
+		, "name" : "Sunny"
+		, "value" : "Sunny"
+		},
+		{ "type" : "image"
+		, "x" : 255
+		, "y" : 11
+		, "url" : "ExteriorWeather.Night.png"
+		, "name" : "Night"
+		, "value" : "Night"
+		},
+		{ "type" : "image"
+		, "x" : 255
+		, "y" : 11
+		, "url" : "ExteriorWeather.Evening.png"
+		, "name" : "Evening"
+		, "value" : "Evening"
+		},
+		{ "type" : "image"
+		, "x" : 255
+		, "y" : 11
+		, "url" : "ExteriorWeather.Cloudy.png"
+		, "name" : "Cloudy"
+		, "value" : "Cloudy"
+		}
+		]
+	}
+	]
+}
