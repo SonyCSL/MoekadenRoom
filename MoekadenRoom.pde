@@ -3,6 +3,7 @@ import processing.net.*;
 import controlP5.*;
 
 import java.util.Iterator;
+import java.util.Calendar ;
 
 import com.sonycsl.echo.Echo;
 import com.sonycsl.echo.EchoProperty;
@@ -16,252 +17,9 @@ import com.sonycsl.echo.eoj.device.airconditioner.HomeAirConditioner;
 import com.sonycsl.echo.eoj.device.housingfacilities.GeneralLighting;
 import com.sonycsl.echo.eoj.device.housingfacilities.ElectricallyOperatedShade;
 import com.sonycsl.echo.eoj.device.housingfacilities.ElectricLock;
+import com.sonycsl.echo.eoj.device.housingfacilities.SmartElectricEnergyMeter ;
+
 import com.sonycsl.echo.eoj.device.sensor.TemperatureSensor ;
-
-//////////////////////////////
-//////////////////////////////
-//////////////////////////////
-// JSONP server class
-//////////////////////////////
-//////////////////////////////
-//////////////////////////////
-
-class HTTPServer extends Server {
-  public HTTPServer(PApplet c , int port , SoftAirconImpl aircon , SoftLightImpl light , SoftBlindImpl blind
-   , SoftTempSensorImpl exTempSensor, SoftLockImpl lock){
-   super( c,port ) ;
-
-   devs.put( "HomeAirConditioner" , new DevInstance(aircon,"0x0130") ) ;
-   aircon.setReceiver( new HomeAirConditioner.Receiver(){
-     protected boolean onGetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onGetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(true,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-     protected boolean onSetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onSetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(false,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-   }) ;
-   devs.put( "GeneralLighting" , new DevInstance(light,"0x0290") ) ;
-   light.setReceiver( new GeneralLighting.Receiver(){
-     protected boolean onGetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onGetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(true,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-     protected boolean onSetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onSetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(false,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-   }) ;
-   devs.put( "ElectricallyOperatedShade" , new DevInstance(blind,"0x0260") ) ;
-   blind.setReceiver( new ElectricallyOperatedShade.Receiver(){
-     protected boolean onGetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onGetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(true,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-     protected boolean onSetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onSetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(false,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-   }) ;
-   devs.put( "TemperatureSensor" , new DevInstance(exTempSensor,"0x0011") ) ;
-   exTempSensor.setReceiver( new TemperatureSensor.Receiver(){
-     protected boolean onGetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onGetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(true,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-     protected boolean onSetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onSetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(false,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-   }) ;
-   devs.put( "ElectricLock" , new DevInstance(lock,"0x026f") ) ;
-   lock.setReceiver( new ElectricLock.Receiver(){
-     protected boolean onGetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onGetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(true,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-     protected boolean onSetProperty(EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success){
-       boolean ret = super.onSetProperty(eoj, tid, esv, property, success);
-       HTTPServer.this.onAccess(false,eoj, tid, esv, property, success) ;
-       return ret ;
-     }
-   }) ;
-   }
-  
-  class DevInstance {
-    DevInstance(DeviceObject d,String cid){this.d = d ; this.clsid = cid ; }
-    public DeviceObject d ;
-    public String clsid ;
-  } ;
-
-  public HashMap<String,DevInstance> devs = new HashMap<String,DevInstance>() ;
-
-  class WaitObj {
-    public WaitObj(Client c,String jcb,String nn){this.c=c;this.jsoncallback=jcb;nickname=nn;}
-    Client c ;
-    String jsoncallback , nickname;
-  }
-  public HashMap<String,WaitObj> waitList = new HashMap<String,WaitObj>() ;
-
-  public void update(){
-      Client c ;
-      if( (c = this.available()) == null )
-        return ;
-
-      final int lf = 10;
-      String st = c.readStringUntil(lf) ;
-      if( st == null || !st.startsWith("GET") ) return ;
-      
-      String pathall = st.split(" ")[1].replace("%20"," ").replace("%22","\"") ;
-      String[] args = pathall.substring(pathall.indexOf("?")+1).split("&") ;
-      
-      HashMap<String,String> m = new HashMap<String,String>() ; 
-      for( String term : args ){
-        String[] lr = term.split("=");
-        if( lr.length < 2 ) continue ;
-        //println(term);
-        m.put(lr[0],lr[1]) ;
-      }
-      
-      String func ;
-      if( (func = m.get("method")) != null ){
-        if( func.equals("list") ){
-          c.write( getListReply(m) ) ;
-          c.stop() ;
-        } else {
-          reqAccess( func.equals("get") , m,c) ;
-        }
-      }
-  }
-  protected String getReplySub_GetHeader(int content_length){
-    return "HTTP/1.1 200 OK\nConnection: close\nContent-Length: "+content_length+"\n"
-      + "Content-Type: application/json\n\n" ;
-      //+ "Content-Type: application/json\nEtag: \"0f3ac231df2644fcac1cc9705915923e\"\n\n" ; // Etag unnecessary?
-  }
-  protected String getListReply( HashMap<String,String> args ){
-    String ret = "{\"result\":[\n" ;
-    String[] etype = {
-      "{\"active\":true,\"protocol\":\"ECHONET Lite\",\"deviceName\":\""
-      ,"\",\"nickname\":\""
-      ,"\",\"option\":{},\"deviceType\":\""
-      ,"\"}\n"
-    } ;
-    boolean bFirst = true ;
-    for (Iterator<String> it = devs.keySet().iterator(); it.hasNext(); ) {
-      String Key = it.next();
-      DevInstance Value = devs.get(Key) ;
-      if( !bFirst ) ret += "," ; bFirst = false ;
-      ret += etype[0]+Key+etype[1]+Key+etype[2]+Value.clsid+etype[3] ;
-    }
-
-    ret +="]}" ;
-
-    String jcb = args.get("jsoncallback") ;
-    if( jcb == null ) jcb = args.get("callback") ;
-    if( jcb != null ) ret = jcb+"("+ret+")" ;
-
-    return getReplySub_GetHeader( ret.length() ) + ret ;
-  }
-  protected void reqAccess( boolean bGet , HashMap<String,String> args , Client c ){
-    String argsStr ;
-
-    if( (argsStr = args.get("params")) != null ){
-      String arg_json = "{\"data\":"+argsStr+"}" ;
-      //JSONArray params = JSONArray.getJSONArray(argsStr) ;
-      JSONArray params = JSONArray.parse(argsStr);
-      //JSONArray params = (new JSONObject("{\"data\":"+argsStr+"}")).getJSONArray("data") ;
-      //String[] prms = argsStr.replace("[\\[\\]\"]","").split(",") ;
-      //String[] prms = argsStr.replace("[","").replace("]","").replace("\"","").split(",") ;
-      //println(prms) ;
-      
-      String nickname = params.getString(0) ;
-      if( !devs.containsKey(nickname) ) return ;
-      DeviceObject d = devs.get(nickname).d ;
-      //DeviceObject d = (devs.containsKey(prms[0])?devs.get(prms[0]).d:null) ;
-
-      //if( d != null ){
-        //boolean bGet = (prms.length <= 2) ;
-        String jcb = args.get("jsoncallback") ;
-        if( jcb == null ) jcb = args.get("callback") ;
-        waitList.put( (bGet?"G":"S")+d.toString() , new WaitObj(c,jcb,nickname) ) ;
-        try {
-          if( bGet ){ // Get
-            DeviceObject.Getter g = d.get() ;
-            for( int pi=1;pi<params.size();++pi ){
-              g = g.reqGetProperty( Integer.decode(params.getString(pi)).byteValue() ) ;
-            }
-            g.send() ;
-            //d.get().reqGetProperty( Integer.decode(prms[1]).byteValue() ).send() ;
-            println("reqGet : "+d.toString()) ;
-          } else {  // Set
-            DeviceObject.Setter s = d.set() ;
-            for( int pi=1;pi<params.size();++pi ){
-              JSONArray ja = params.getJSONArray(pi) ;
-              JSONArray ja_prm = ja.getJSONArray(1) ;
-              byte[] prm = new byte[ja_prm.size()] ;
-              for( int pii = 0 ; pii < prm.length ; ++pii )
-                 prm[pii] = Integer.decode(ja_prm.getString(pii)).byteValue() ; 
-              s = s.reqSetProperty(
-                Integer.decode(ja.getString(0)).byteValue() , prm ) ;
-                //,Integer.decode(ja.getString(1)).byteValue() ) ;
-            }
-            s.send() ;
-            
-            //byte[] prms_real = new byte[prms.length-2] ;
-            //for( int pi=2;pi<prms.length;++pi )  prms_real[pi-2] = Integer.decode(prms[pi]).byteValue() ;
-            //d.set().reqSetProperty( Integer.decode(prms[1]).byteValue() , prms_real ).send() ;
-            println("reqSet : "+d.toString()) ;
-          }
-        } catch (IOException e){ e.printStackTrace(); }
-      //}
-    }
-  }
-  protected void onAccess( boolean bGet , EchoObject eoj, short tid, byte esv,EchoProperty property, boolean success ){
-         println("onAccess : "+eoj.toString()) ;
-         WaitObj wo = waitList.get((bGet?"G":"S")+eoj.toString()) ;
-         if( wo==null ) return ;
-         waitList.remove((bGet?"G":"S")+eoj.toString()) ;
-
-        String edtstr = "" ;
-        if( property.edt != null ){
-          for( int ei=0;ei<property.edt.length;++ei ){
-            if( ei != 0 ) edtstr += "," ;
-            //edtstr += String.format("0x%x",property.edt[ei]) ;
-            edtstr += property.edt[ei] ;
-          }
-        }
-
-         String ret = String.format( "{\"result\":{\"nickname\":\"%s\",\"property\":[{\"value\":[%s],\"success\":%s,\"name\":\"0x%x\"}]}}"
-           //
-           ,wo.nickname
-           ,edtstr
-           ,(success?"true":"false")
-           ,property.epc ) ;
-
-         if( wo.jsoncallback != null )   ret = wo.jsoncallback+"("+ret+")" ;
-          ret = getReplySub_GetHeader( ret.length() ) + ret ;
-
-          println("on"+(bGet?"Get":"Set")+" : " + ret) ;
-          wo.c.write(ret) ;
-
-         wo.c.stop() ;
-  }
-} ;
-
-HTTPServer httpserv ;
-
-
-
 
 
 
@@ -294,7 +52,7 @@ public class MyNodeProfile extends NodeProfile {
 //////////////////////////////
 //////////////////////////////
 //////////////////////////////
-int pw,mode,temp ;
+int pw, mode, temp ;
 public class SoftAirconImpl extends HomeAirConditioner {
   public byte[] mStatus = {0x31};// 初期の電源状態はOFFだと仮定します。
   public byte[] mMode = {0x41};  // 初期モードは自動モードと仮定します。
@@ -325,6 +83,7 @@ public class SoftAirconImpl extends HomeAirConditioner {
     pw = edt[0]-0x30 ;
     try {
       inform().reqInformOperationStatus().send();
+        smartMeter.setInstantaneousElectricEnergy_Diff(edt[0] == 0x30?300:-300) ;
     } catch (IOException e) { e.printStackTrace();}
     setupImage() ;
     return true;
@@ -458,6 +217,7 @@ public class SoftLightImpl extends GeneralLighting {
     light_pw = edt[0]-0x30 ;
     try {
       inform().reqInformOperationStatus().send();
+        smartMeter.setInstantaneousElectricEnergy_Diff(edt[0] == 0x30?40:-40) ;
     } catch (IOException e) { e.printStackTrace();}
     setupImage() ;
     return true;
@@ -714,6 +474,134 @@ public class SoftLockImpl extends ElectricLock {
 SoftLockImpl lock ;
 
 
+//////////////////////////////
+//////////////////////////////
+//////////////////////////////
+// Smart meter class (0x0288
+// https://github.com/SonyCSL/OpenECHO/blob/master/src/com/sonycsl/echo/eoj/device/housingfacilities/SmartElectricEnergyMeter.java
+//////////////////////////////
+//////////////////////////////
+//////////////////////////////
+public class SoftElectricEnergyMeter extends SmartElectricEnergyMeter  {
+  public byte[] mStatus = {0x30};// Always on
+  public byte[] mLock = {0x41};  // Locked(0x42:Unlocked)
+
+  byte[] mLocation = {0x00};
+  byte[] mVersion = {0x01, 0x01, 0x61, 0x00};
+  byte[] mFaultStatus = {0x42};
+  byte[] mManufacturerCode = {0,0,0};
+  
+  SoftElectricEnergyMeter(){
+    super() ;
+    addGetProperty(EPC_NUMBER_OF_EFFECTIVE_DIGITS_FOR_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY ) ;  // D7
+    addGetProperty(EPC_MEASURED_CUMULATIVE_AMOUNT_OF_ELECTRIC_ENERGY_NORMAL_DIRECTION ) ;        // E0
+    addGetProperty(EPC_UNIT_FOR_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_NORMAL_AND_REVERSE_DIRECTIONS ) ;  // E1
+    addGetProperty(EPC_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_NORMAL_DIRECTION ) ;  // E2
+    addGetProperty(EPC_DAY_FOR_WHICH_THE_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_IS_TO_BE_RETRIEVED) ;  // E5
+    addGetProperty(EPC_MEASURED_INSTANTANEOUS_ELECTRIC_ENERGY ) ; // E7
+    addGetProperty(EPC_MEASURED_INSTANTANEOUS_CURRENTS ) ; // E8
+    addGetProperty(EPC_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_MEASURED_AT_FIXED_TIME_NORMAL_DIRECTION ) ; // EA
+
+  }
+
+  protected boolean setInstallationLocation(byte[] edt) {return true;}
+  protected byte[] getInstallationLocation() {return mLocation;}
+  protected byte[] getStandardVersionInformation() {return mVersion;}
+  protected byte[] getFaultStatus() {  return mFaultStatus;}
+  protected byte[] getManufacturerCode() {return mManufacturerCode;}
+//  protected byte[] getStatusChangeAnnouncementPropertyMap() {  return null;}
+//  protected byte[] getSetPropertyMap() {return null;}
+//  protected byte[] getGetPropertyMap() {return null;}
+
+  protected byte[] getOperationStatus() { return mStatus; }
+  
+  
+  // D7
+  byte[] numberOfEffectiveDigitsForCumulativeAmountsOfElectricEnergy = new byte[]{0x08} ;
+      @Override
+    protected byte[] getNumberOfEffectiveDigitsForCumulativeAmountsOfElectricEnergy() {
+        return numberOfEffectiveDigitsForCumulativeAmountsOfElectricEnergy ;
+    }
+
+  // E0
+  byte[] measuredCumulativeAmountOfElectricEnergyNormalDirection = new byte[]{1,0,0,0} ;
+    @Override
+    protected byte[] getMeasuredCumulativeAmountOfElectricEnergyNormalDirection() {
+        return measuredCumulativeAmountOfElectricEnergyNormalDirection ;
+    }
+
+// E1
+  byte[] unitForCumulativeAmountsOfElectricEnergyNormalAndReverseDirections = new byte[]{0x02} ;
+    @Override
+    protected byte[] getUnitForCumulativeAmountsOfElectricEnergyNormalAndReverseDirections() {
+        return unitForCumulativeAmountsOfElectricEnergyNormalAndReverseDirections;
+    }
+  // E2
+  byte[] historicalDataOfMeasuredCumulativeAmountsOfElectricEnergyNormalDirection = new byte[194]  ;
+  @Override
+    protected byte[] getHistoricalDataOfMeasuredCumulativeAmountsOfElectricEnergyNormalDirection() {
+    return historicalDataOfMeasuredCumulativeAmountsOfElectricEnergyNormalDirection;
+  }
+
+// E5
+  boolean setDayForWhichTheHistoricalDataOfMeasuredCumulativeAmountsOfElectricEnergyIsToBeRetrieved(byte[] edt) {return true;}
+  protected byte[] getDayForWhichTheHistoricalDataOfMeasuredCumulativeAmountsOfElectricEnergyIsToBeRetrieved() {return new byte[]{0};}
+
+// E7
+  byte[] measuredInstantaneousElectricEnergy = new byte[4] ;
+  protected byte[] getMeasuredInstantaneousElectricEnergy() {return measuredInstantaneousElectricEnergy;}
+// E8
+  byte[] measuredInstantaneousCurrents = new byte[4] ;
+  protected byte[] getMeasuredInstantaneousCurrents() {return measuredInstantaneousCurrents;}
+// EA
+  byte[] cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection ;
+    @Override
+    protected byte[] getCumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection() {
+      if( cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection == null ){
+        cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection = new byte[15] ;
+      }
+      Calendar c = Calendar.getInstance();
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[0] = (byte)(c.get(Calendar.YEAR)/256) ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[1] = (byte)(c.get(Calendar.YEAR)%256) ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[2] = (byte)(c.get(Calendar.MONTH) + 1) ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[3] = (byte)(c.get(Calendar.DATE)) ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[4] = (byte)(c.get(Calendar.HOUR_OF_DAY)) ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[5] = (byte)(c.get(Calendar.MINUTE)<=30 ? 0 : 30) ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[6] = 0 ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[7] = measuredCumulativeAmountOfElectricEnergyNormalDirection[0] ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[8] = measuredCumulativeAmountOfElectricEnergyNormalDirection[1] ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[9] = measuredCumulativeAmountOfElectricEnergyNormalDirection[2] ;
+      cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection[10] = measuredCumulativeAmountOfElectricEnergyNormalDirection[3] ;
+
+        return cumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection;
+    }
+  
+  
+  public long instantaneousElectricEnergy = 123 ; //
+  public void setInstantaneousElectricEnergy( long watts ){
+    instantaneousElectricEnergy = watts ;
+    
+    measuredInstantaneousElectricEnergy[3] = (byte)(watts%256) ;
+    measuredInstantaneousElectricEnergy[2] = (byte)((watts>>8)%256) ;
+    measuredInstantaneousElectricEnergy[1] = (byte)((watts>>16)%256) ;
+    measuredInstantaneousElectricEnergy[0] = (byte)((watts>>24)%256) ;
+    
+    long A = watts/100 ;
+
+    measuredInstantaneousCurrents[3] = (byte)(A%256) ;
+    measuredInstantaneousCurrents[2] = (byte)((A>>8)%256) ;
+    measuredInstantaneousCurrents[1] = (byte)((A>>16)%256) ;
+    measuredInstantaneousCurrents[0] = (byte)((A>>24)%256) ;
+  }
+  public void setInstantaneousElectricEnergy_Diff( long watts_diff ){
+    setInstantaneousElectricEnergy( instantaneousElectricEnergy + watts_diff ) ; 
+  }
+}
+
+SoftElectricEnergyMeter smartMeter ;
+
+
+
 
 
 
@@ -787,8 +675,9 @@ void setup() {
       blind = new SoftBlindImpl() ;
       exTempSensor = new SoftTempSensorImpl() ;
       lock = new SoftLockImpl() ;
+      smartMeter = new SoftElectricEnergyMeter() ;
 
-      Echo.start( new MyNodeProfile(),new DeviceObject[]{aircon,light,blind,exTempSensor,lock});
+      Echo.start( new MyNodeProfile(),new DeviceObject[]{aircon,light,blind,exTempSensor,lock,smartMeter});
       
       pw = aircon.mStatus[0]-0x30 ;
       mode = aircon.mMode[0]-0x41 ;
@@ -890,9 +779,6 @@ void draw() {
 
   line( 777,400+(1-lock_locked)*20 ,777,400+(1-lock_locked)*20+13 ) ;
 
-
-  if( httpserv != null )
-    httpserv.update() ;
 }
 
 void drawImages( JSONObject node ){
@@ -924,8 +810,13 @@ void drawImages( JSONObject node ){
 }
 
 // Aircon switches
-public void On(){ aircon.setOperationStatusBoolean(true) ; }
-public void Off(){ aircon.setOperationStatusBoolean(false) ; }
+public void On(){
+  aircon.setOperationStatusBoolean(true) ;
+}
+public void Off(){
+   aircon.setOperationStatusBoolean(false) ;
+
+ }
 public void Auto(){ aircon.setOperationModeSettingInt(0) ; }
 public void Cool(){ aircon.setOperationModeSettingInt(1) ; }
 public void Heat(){ aircon.setOperationModeSettingInt(2) ; }
@@ -935,8 +826,13 @@ public void Up(){ aircon.setTemperatureValueInt(temp+1) ; }
 public void Down(){ aircon.setTemperatureValueInt(temp-1) ; }
 
 // Light switches
-public void LightOn(){ light.setOperationStatusBoolean(true) ; }
-public void LightOff(){ light.setOperationStatusBoolean(false) ; }
+public void LightOn(){
+  light.setOperationStatusBoolean(true) ;
+}
+public void LightOff(){
+  light.setOperationStatusBoolean(false) ;
+  smartMeter.setInstantaneousElectricEnergy_Diff(-40) ;
+}
 
 // Blind switches
 public void CurtainOpen(){ blind.setOpenCloseSettingBoolean(true) ; }
