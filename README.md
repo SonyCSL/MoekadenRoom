@@ -6,10 +6,10 @@ Processing2で作られています。
 2015/12/25 適当ですがスマートメーターオブジェクトを加えました。</font></p>
 # Download executables
 以下からお好きなものを落として使ってください。Win32以外はJavaが必要だと思います。また、librariesフォルダ内にOpenECHO for ProcessingとControlP5が必要です。バージョン齟齬を避けるため<a href="https://github.com/SonyCSL/OpenECHO/tree/master/Processing/libraries" target="_blank">GitHubのOpenECHOから落として</a>ください。
-+ <a href="blob/master/misc/application.windows64.zip?raw=true" target="_blank">Win64bit版</a>
-+ <a href="blob/master/misc/application.windows32.zip?raw=true" target="_blank">Win32bit版+Java Runtime</a>
-+ <a href="blob/master/misc/application.linux64.zip?raw=true" target="_blank">Linux64bit版</a>
-+ <a href="blob/master/misc/application.linux32.zip?raw=true" target="_blank">Linux32bit版</a>
++ <a href="misc/application.windows64.zip?raw=true" target="_blank">Win64bit版</a>
++ <a href="misc/application.windows32.zip?raw=true" target="_blank">Win32bit版+Java Runtime</a>
++ <a href="misc/application.linux64.zip?raw=true" target="_blank">Linux64bit版</a>
++ <a href="misc/application.linux32.zip?raw=true" target="_blank">Linux32bit版</a>
 
 ※Mac版はExportできなかったためありません。ごめんなさい。
 
