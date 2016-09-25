@@ -53,14 +53,10 @@ public class MyNodeProfile extends NodeProfile {
 //////////////////////////////
 //////////////////////////////
 int pw, mode, temp ;
-int ps, af;
-
 public class SoftAirconImpl extends HomeAirConditioner {
   public byte[] mStatus = {0x31};// 初期の電源状態はOFFだと仮定します。
   public byte[] mMode = {0x41};  // 初期モードは自動モードと仮定します。
-  public byte[] mTemperature = {20}; // 初期の設定温度は20度と仮定します。
-  public byte[] mPowerSaving = {0x42}; // 初期の節電動作設定は通常動作中と仮定します。
-  public byte[] mAirFlow = {0x41}; // 初期の風量設定は風量自動設定と仮定します。
+  public byte[] mTemperature = {20}; // 初期の設定温度は18度と仮定します。
 
   //////////////////////////////////
   // 以下、必須プロパティの適当な実装です。
@@ -79,16 +75,6 @@ public class SoftAirconImpl extends HomeAirConditioner {
 //  protected byte[] getStatusChangeAnnouncementPropertyMap() {  return null;}
 //  protected byte[] getSetPropertyMap() {return null;}
 //  protected byte[] getGetPropertyMap() {return null;}
-
-  protected void setupPropertyMaps() {
-    super.setupPropertyMaps();
-	
-	addGetProperty(EPC_POWER_SAVING_OPERATION_SETTING);
-	addSetProperty(EPC_POWER_SAVING_OPERATION_SETTING);
-	addGetProperty(EPC_AIR_FLOW_RATE_SETTING);
-	addSetProperty(EPC_AIR_FLOW_RATE_SETTING);
-	addGetProperty(EPC_MEASURED_VALUE_OF_ROOM_TEMPERATURE);
-  }
 
   // 以下はわりかし真面目な実装です。
   // 電源のON/OFF操作です。
@@ -165,131 +151,6 @@ public class SoftAirconImpl extends HomeAirConditioner {
       e.printStackTrace();
     }
   }
-
-
-  /**
-   * This property indicates whether the device is operating in power-saving mode.<br>
-   * <br>
-   * Operating in power-saving mode =0x41<br>
-   * Operating in normal operation mode =0x42<br>
-   * <br>
-   * Data Type : unsigned char<br>
-   * Data Size(Byte) : 1<br>
-   * <br>
-   * AccessRule<br>
-   * Announce : undefined<br>
-   * Set : optional<br>
-   * Get : optional<br>
-   */
-  protected boolean setPowerSavingOperationSetting(byte[] edt) {
-    mPowerSaving[0] = edt[0];
-    ps = edt[0] - 0x41;
-    try {
-      inform().reqInformPowerSavingOperationSetting().send();
-    } catch (IOException e) { e.printStackTrace(); }
-    return true;
-  }
-
-  /**
-   * This property indicates whether the device is operating in power-saving mode.<br>
-   * <br>
-   * Operating in power-saving mode =0x41<br>
-   * Operating in normal operation mode =0x42<br>
-   * <br>
-   * Data Type : unsigned char<br>
-   * Data Size(Byte) : 1<br>
-   * <br>
-   * AccessRule<br>
-   * Announce : undefined<br>
-   * Set : optional<br>
-   * Get : optional<br>
-   */
-  protected byte[] getPowerSavingOperationSetting() { return mPowerSaving; }
-
-  /**
-   * Property name : Measured value of room temperature<br>
-   * <br>
-   * EPC : 0xBB<br>
-   * <br>
-   * Contents of property :<br>
-   * Measured value of room temperature<br>
-   * <br>
-   * Value range (decimal notation) :<br>
-   * 0x80.0x7D (-127.125.C)<br>
-   * <br>
-   * Data type : signed char<br>
-   * <br>
-   * Data size : 1 byte<br>
-   * <br>
-   * Unit : .C<br>
-   * <br>
-   * Access rule :<br>
-   * Announce - undefined<br>
-   * Set - undefined<br>
-   * Get - optional<br>
-   */
-  protected byte[] getMeasuredValueOfRoomTemperature() {
-    byte[] rt = { 0x00 };
-    rt[0] = (byte)(room_temp_x10/10);
-	return rt;
-  }
-
-  /**
-   * Property name : Air flow rate setting<br>
-   * <br>
-   * EPC : 0xA0<br>
-   * <br>
-   * Contents of property :<br>
-   * Used to specify the air flow rate or use the function to automatically control the air flow rate, and to acquire the current setting. The air flow rate shall be selected from among the 8 predefined levels.<br>
-   * <br>
-   * Value range (decimal notation) :<br>
-   * Automatic air flow rate control function used = 0x41<br>
-   * Air flow rate = 0x31.0x38<br>
-   * <br>
-   * Data type : unsigned char<br>
-   * <br>
-   * Data size : 1 byte<br>
-   * <br>
-   * Unit : -<br>
-   * <br>
-   * Access rule :<br>
-   * Announce - undefined<br>
-   * Set - optional<br>
-   * Get - optional<br>
-   */
-  protected boolean setAirFlowRateSetting(byte[] edt) {
-    mAirFlow[0] = edt[0];
-    af = edt[0] - 0x31;
-    try {
-      inform().reqInformAirFlowRateSetting().send();
-    } catch (IOException e) { e.printStackTrace(); }
-    return true;
-  }
-
-  /**
-   * Property name : Air flow rate setting<br>
-   * <br>
-   * EPC : 0xA0<br>
-   * <br>
-   * Contents of property :<br>
-   * Used to specify the air flow rate or use the function to automatically control the air flow rate, and to acquire the current setting. The air flow rate shall be selected from among the 8 predefined levels.<br>
-   * <br>
-   * Value range (decimal notation) :<br>
-   * Automatic air flow rate control function used = 0x41<br>
-   * Air flow rate = 0x31.0x38<br>
-   * <br>
-   * Data type : unsigned char<br>
-   * <br>
-   * Data size : 1 byte<br>
-   * <br>
-   * Unit : -<br>
-   * <br>
-   * Access rule :<br>
-   * Announce - undefined<br>
-   * Set - optional<br>
-   * Get - optional<br>
-   */
-  protected byte[] getAirFlowRateSetting() { return mAirFlow; }
 
   // 表示を入れ替える関数です
   protected void setupImage(){
@@ -636,6 +497,7 @@ public class SoftElectricEnergyMeter extends SmartElectricEnergyMeter  {
     addGetProperty(EPC_MEASURED_CUMULATIVE_AMOUNT_OF_ELECTRIC_ENERGY_NORMAL_DIRECTION ) ;        // E0
     addGetProperty(EPC_UNIT_FOR_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_NORMAL_AND_REVERSE_DIRECTIONS ) ;  // E1
     addGetProperty(EPC_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_NORMAL_DIRECTION ) ;  // E2
+    addSetProperty(EPC_DAY_FOR_WHICH_THE_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_IS_TO_BE_RETRIEVED) ;  // E5
     addGetProperty(EPC_DAY_FOR_WHICH_THE_HISTORICAL_DATA_OF_MEASURED_CUMULATIVE_AMOUNTS_OF_ELECTRIC_ENERGY_IS_TO_BE_RETRIEVED) ;  // E5
     addGetProperty(EPC_MEASURED_INSTANTANEOUS_ELECTRIC_ENERGY ) ; // E7
     addGetProperty(EPC_MEASURED_INSTANTANEOUS_CURRENTS ) ; // E8
@@ -824,8 +686,6 @@ void setup() {
       light_pw = light.mStatus[0]-0x30 ;
       blind_open = blind.mOpen[0]-0x41 ;
       lock_locked = 0x42-lock.mLock[0] ;
-      ps = aircon.mPowerSaving[0] - 0x41 ;
-      af = aircon.mAirFlow[0] - 0x31 ;
 
       room_temp_x10 = ((exTempSensor.mTemp[0]&0xff)<<8) | (exTempSensor.mTemp[1]&0xff) ;
       if( room_temp_x10 > 0x8000 ) room_temp_x10 = room_temp_x10 - 0x10000 ;
@@ -904,28 +764,6 @@ void draw() {
   fill(0, 102, 153) ;
   textSize(15) ;
   text(temp+"℃", 582+35*2,8+15);
-
-  // Draw powersaving mode
-  if (ps == 0) {
-    text("PowerSaving", 575,90);
-  } else {
-    text("Normal", 575,90);
-  }
-
-  // Draw air flow level
-  switch (af) {
-    case 0:  text("AirFlow: Level1", 685,90);  break;
-    case 1:  text("AirFlow: Level2", 685,90);  break;
-    case 2:  text("AirFlow: Level3", 685,90);  break;
-    case 3:  text("AirFlow: Level4", 685,90);  break;
-    case 4:  text("AirFlow: Level5", 685,90);  break;
-    case 5:  text("AirFlow: Level6", 685,90);  break;
-    case 6:  text("AirFlow: Level7", 685,90);  break;
-    case 7:  text("AirFlow: Level8", 685,90);  break;
-    case 16:
-    default:
-             text("AirFlow: Automatic", 685,90);  break;
-  }
 
   exTempSensor.setTemp(room_temp_x10 = (int)(cp5.getController("RoomTempSlider").getValue())) ;
   text(String.format("%.1f℃",room_temp_x10*0.1), 160,48);
