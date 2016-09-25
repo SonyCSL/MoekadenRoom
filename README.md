@@ -12,7 +12,9 @@ Processing2で作られています。
 + <a href="misc/application.linux32.zip" target="_blank">Linux32bit版</a>
 
 ※Mac版はExportできなかったためありません。ごめんなさい。
+
 ※ソースコードのライセンスは<a href="http://sourceforge.jp/projects/opensource/wiki/licenses%2FMIT_license" target="_blank">MITライセンス</a>にします。ただし、画像はそのまま二次利用しないでください。
+
 ※中で使っている<a href="https://github.com/SonyCSL/OpenECHO" title="OpenECHO site" target="_blank">OpenECHO</a>もMITです。<a href="http://www.sojamo.de/libraries/controlP5/" title="Control P5 page" target="_blank">ControlP5</a>はLGPLです。
 # 使用方法
 + このアプリは2種類の入力を受け付けます。1. ECHONET Liteネットワークからの入力、2. ユーザーのマウスによる入力です。
