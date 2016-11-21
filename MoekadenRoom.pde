@@ -629,11 +629,12 @@ String[] lightBtns = {"LightOn","LightOff"} ;
 String[] blindBtns = {"CurtainOpen","CurtainClose"} ;
 String[] lockBtns = {"LockKey","UnlockKey"} ;
 
-void setup() {
+void settings() {
   backImgJSON = loadJSONObject(backImgPath+"setup.json") ;
-
   size(backImgJSON.getInt("width"),backImgJSON.getInt("height"));
+}
 
+void setup() {
   // Setup imgTypeMap
   imgTypeMap.put("stacklayers",STACKLAYERS) ;    imgTypeMap.put("accumlayers",ACCUMLAYERS) ;
   imgTypeMap.put("switchlayers",SWITCHLAYERS) ;  imgTypeMap.put("animlayers",ANIMLAYERS) ;
