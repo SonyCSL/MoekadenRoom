@@ -24,25 +24,37 @@ import com.sonycsl.echo.eoj.device.sensor.TemperatureSensor ;
 
 
 public class MyNodeProfile extends NodeProfile {
-  byte[] mManufactureCode = {0,0,0};
-  byte[] mStatus = {0x30};
-  byte[] mVersion = {1,1,1,0};
-  byte[] mIdNumber = {(byte)0xFE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-  byte[] mUniqueId = {0,0};
+  byte[] mManufactureCode = {1,2,3};  // 0x8A
+  byte[] mStatus = {0x30};            // 0x80
+  byte[] mVersion = {1,1,1,0};        // 0x82
+  //byte[] mIdNumber = {(byte)0xFE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};  // 0x83
+  byte[] mIdNumber = {(byte)0xFE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};  // 0x83
+  byte[] mUniqueId = {0,0};           // 0xBF 
+  @Override
   protected byte[] getManufacturerCode() {return mManufactureCode;}
+  @Override
   protected byte[] getOperatingStatus() {  return mStatus;  }
+  @Override
   protected byte[] getVersionInformation() {return mVersion;}
+  @Override
   protected byte[] getIdentificationNumber() {return mIdNumber;}
+  @Override
   protected boolean setUniqueIdentifierData(byte[] edt) {
     if((edt[0] & 0x40) != 0x40)   return false;
     mUniqueId[0] = (byte)((edt[0] & (byte)0x7F) | (mUniqueId[0] & 0x80));
     mUniqueId[1] = edt[1];
     return true;
   }
+  @Override
   protected byte[] getUniqueIdentifierData() {return mUniqueId;}
 //  protected byte[] getStatusChangeAnnouncementPropertyMap() {  return null;}
 //  protected byte[] getSetPropertyMap() {return null;}
 //  protected byte[] getGetPropertyMap() {return null;}
+  @Override
+  protected void setupPropertyMaps(){
+    super.setupPropertyMaps() ;
+    addGetProperty( EPC_MANUFACTURER_CODE ); // 0x8B
+  }  
 }
 
 //////////////////////////////
@@ -54,7 +66,7 @@ public class MyNodeProfile extends NodeProfile {
 //////////////////////////////
 int pw, mode, temp ;
 public class SoftAirconImpl extends HomeAirConditioner {
-  public byte[] mStatus = {0x31};// 初期の電源状態はOFFだと仮定します。
+  public byte[] mStatus = {0x31}; // 0x80:の電源状態はOFFだと仮定します。
   public byte[] mMode = {0x41};  // 初期モードは自動モードと仮定します。
   public byte[] mTemperature = {20}; // 初期の設定温度は18度と仮定します。
 
@@ -63,18 +75,44 @@ public class SoftAirconImpl extends HomeAirConditioner {
   // 本当はもっときちんと実装しなければいけなさそうです。
   //////////////////////////////////
   byte[] mLocation = {0x00};
-  byte[] mVersion = {0x01, 0x01, 0x61, 0x00};
+  byte[] mStandardVersion = {0x01, 0x01, 0x61, 0x00}; // 0x82
   byte[] mFaultStatus = {0x42};
-  byte[] mManufacturerCode = {0,0,0};
+  byte[] mManufacturerCode = {3,2,1};  // 0x8A Usually unused. (NodeProfies's Manufacturer code IdentificationNumber are used as a whole
 
   protected boolean setInstallationLocation(byte[] edt) {return true;}
   protected byte[] getInstallationLocation() {return mLocation;}
-  protected byte[] getStandardVersionInformation() {return mVersion;}
+  protected byte[] getStandardVersionInformation() {return mStandardVersion;}
   protected byte[] getFaultStatus() {  return mFaultStatus;}
   protected byte[] getManufacturerCode() {return mManufacturerCode;}
+  
 //  protected byte[] getStatusChangeAnnouncementPropertyMap() {  return null;}
 //  protected byte[] getSetPropertyMap() {return null;}
 //  protected byte[] getGetPropertyMap() {return null;}
+
+
+  ///////////////////////////////////////////
+  /// Optional settings.
+  /// See https://github.com/SonyCSL/OpenECHO/blob/master/src/com/sonycsl/echo/eoj/device/DeviceObject.java
+  byte[] mBusinessFacilityCode = {0x01,0x02,0x03};  // Defined by Manifacturer (3 bytes)
+  byte[] mProductCode = {'M','o','e','A','i','r','c','o','n',0x00,0x00,0x00};  // ASCII name (12 bytes)
+  byte[] mProductionNumber = {'4','1','3','1','4',0x00,0x00,0x00,0x00,0x00,0x00,0x00};  // Number in ASCII (12 bytes)
+  byte[] mProductionDate = {(byte)(2016>>8),(byte)(2016&0xFF),6,8};  // Production date in binary (YYMD)
+  @Override
+  protected void setupPropertyMaps(){
+    super.setupPropertyMaps() ;
+    addGetProperty( EPC_BUSINESS_FACILITY_CODE ); // 0x8B
+    addGetProperty( EPC_PRODUCT_CODE );//0x8C;
+    addGetProperty( EPC_PRODUCTION_NUMBER );//0x8D;
+    addGetProperty( EPC_PRODUCTION_DATE );//0x8E
+  }
+  @Override
+  protected byte[] getBusinessFacilityCode() { return mBusinessFacilityCode ; }
+  @Override
+  protected byte[] getProductCode() { return mProductCode ; }
+  @Override
+  protected byte[] getProductionNumber() { return mProductionNumber ; }
+  @Override
+  protected byte[] getProductionDate() { return mProductionDate ; }
 
   // 以下はわりかし真面目な実装です。
   // 電源のON/OFF操作です。
@@ -171,7 +209,6 @@ public class SoftAirconImpl extends HomeAirConditioner {
       switchLayer( "AirconWind",-1 ) ;
     }
   }
-
 
 }
 
