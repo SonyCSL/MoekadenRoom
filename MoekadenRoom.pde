@@ -28,7 +28,7 @@ public class MyNodeProfile extends NodeProfile {
   byte[] mStatus = {0x30};            // 0x80
   byte[] mVersion = {1,1,1,0};        // 0x82
   //byte[] mIdNumber = {(byte)0xFE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};  // 0x83
-  byte[] mIdNumber = {(byte)0xFE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};  // 0x83
+  byte[] mIdNumber = {(byte)0xFE,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5};  // 0x83
   byte[] mUniqueId = {0,0};           // 0xBF 
   @Override
   protected byte[] getManufacturerCode() {return mManufactureCode;}
@@ -96,7 +96,7 @@ public class SoftAirconImpl extends HomeAirConditioner {
   byte[] mBusinessFacilityCode = {0x01,0x02,0x03};  // Defined by Manifacturer (3 bytes)
   byte[] mProductCode = {'M','o','e','A','i','r','c','o','n',0x00,0x00,0x00};  // ASCII name (12 bytes)
   byte[] mProductionNumber = {'4','1','3','1','4',0x00,0x00,0x00,0x00,0x00,0x00,0x00};  // Number in ASCII (12 bytes)
-  byte[] mProductionDate = {(byte)(2016>>8),(byte)(2016&0xFF),6,8};  // Production date in binary (YYMD)
+  byte[] mProductionDate = {(byte)((2016>>8)&0xFF),(byte)(2016&0xFF),6,8};  // Production date in binary (YYMD)
   @Override
   protected void setupPropertyMaps(){
     super.setupPropertyMaps() ;
