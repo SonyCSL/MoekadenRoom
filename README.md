@@ -1,7 +1,8 @@
 # MoekadenRoom - An ECHONET Lite Emulator
-エアコン、照明、電動ブラインド、電子錠、温度計の合計5種類の機器オブジェクトが含まれています。
+エアコン、照明、電動ブラインド、電子錠、温度計、いいかげんなスマートメーターの合計６種類の機器オブジェクトが含まれています。
 Processingで作られています。
 ![](misc/MoekadenRoomCap.png)
+
 ##Updates
 2016/12/2 <a href="https://github.com/issekiamp" target="_blank">一石アンプさん</a>のおかげでProcessing3に対応しました。  
 2015/12/25 適当ですがスマートメーターオブジェクトを加えました。</font></p>  
