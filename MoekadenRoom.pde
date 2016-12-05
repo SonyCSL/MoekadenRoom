@@ -24,11 +24,10 @@ import com.sonycsl.echo.eoj.device.sensor.TemperatureSensor ;
 
 
 public class MyNodeProfile extends NodeProfile {
-  byte[] mManufactureCode = {1,2,3};  // 0x8A
+  byte[] mManufactureCode = {0,0,0};  // 0x8A
   byte[] mStatus = {0x30};            // 0x80
   byte[] mVersion = {1,1,1,0};        // 0x82
-  //byte[] mIdNumber = {(byte)0xFE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};  // 0x83
-  byte[] mIdNumber = {(byte)0xFE,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5};  // 0x83
+  byte[] mIdNumber = {(byte)0xFE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};  // 0x83
   byte[] mUniqueId = {0,0};           // 0xBF 
   @Override
   protected byte[] getManufacturerCode() {return mManufactureCode;}
@@ -77,7 +76,7 @@ public class SoftAirconImpl extends HomeAirConditioner {
   byte[] mLocation = {0x00};
   byte[] mStandardVersion = {0x01, 0x01, 0x61, 0x00}; // 0x82
   byte[] mFaultStatus = {0x42};
-  byte[] mManufacturerCode = {3,2,1};  // 0x8A Usually unused. (NodeProfies's Manufacturer code IdentificationNumber are used as a whole
+  byte[] mManufacturerCode = {0,0,0};  // 0x8A Usually unused. (NodeProfies's Manufacturer code IdentificationNumber are used as a whole
 
   protected boolean setInstallationLocation(byte[] edt) {return true;}
   protected byte[] getInstallationLocation() {return mLocation;}
