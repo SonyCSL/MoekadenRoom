@@ -1,10 +1,11 @@
 # MoekadenRoom - An ECHONET Lite Emulator
-エアコン、照明、電動ブラインド、電子錠、温度計、いいかげんなスマートメーターの合計６種類の機器オブジェクトが含まれています。
+エアコン、照明、電動ブラインド、電子錠、温度計、スマートメーターの合計６種類の機器オブジェクトが含まれています。
 Processingで作られています。
 
 ![](misc/MoekadenRoomCap.png)
 
 ##Updates
+2016/12/5 スマートメーターの実装をちょっとだけよくしたのと瞬時値・履歴データを画面に表示するようにしました。  
 2016/12/2 <a href="https://github.com/issekiamp" target="_blank">一石アンプさん</a>のおかげでProcessing3に対応しました。  
 2015/12/25 適当ですがスマートメーターオブジェクトを加えました。</font></p>  
 
@@ -70,7 +71,43 @@ Processingで作られています。
 <td>温度<br />0xe0</td>
 <td>Big endian 2byteで<br />符号付温度を0.1℃<br />単位で表す<br /><b>(Default [0,220]<br /> = 22.0℃)</b></td>
 </tr>
+<tr>
+<td rowspan=8>スマートメーターオブジェクト<br />0x0288</td>
+<td>履歴有効桁数<br />0xd7</td>
+<td>1～8:<b>[8]</b><br />正直言って、守っていない。</td>
+</tr>
+<tr>
+<td>積算電力量kWh<br />0xe0</td>
+<td>現在は30分間隔サンプルの最新値を返す</td>
+</tr>
+<tr>
+<td>積算電力量の単位<br />0xe1</td>
+<td>0x0～0x0D.<br /><b>[0x02]:0.01kWh</b></td>
+</tr>
+<tr>
+<td>積算電力履歴(正方向)<br />0xe2</td>
+<td>1～2 バイト目：収集日 0x0000～0x0063(0～99)<br />3 バイト目以降：積算電力量計測値<br />(4byteづつ48サンプル。Big Endian。<br />データがないところは0xFFFFFFFEが返る)</td>
+</tr>
+<tr>
+<td>積算履歴収集日<br />0xe5</td>
+<td>0:当日 1～99:前日の日数<br /><b>[0]:当日</b></td>
+</tr>
+<tr>
+<td>瞬時電力計測値<br />0xe7</td>
+<td>Watt単位。4 bytes<br /><b>ランダム値</b></td>
+</tr>
+<tr>
+<td>瞬時電流計測値<br />0xea</td>
+<td>0.1A単位。2byteづつR相・T相。<br /><b>[瞬時電力を100で割ったもの]</b></td>
+</tr>
+<tr>
+<td>30分毎の最新積算電力量(正方向)<br />0xea</td>
+<td>計測年月日(4bytes) YYYY:MM:DD<br />計測時刻(3bytes) hh:mm:ss<br />積算電力量(4bytes)</td>
+</tr>
 </table>
+
+※スマートメーターは、瞬時位置も履歴もランダムな値を生成して返します。エアコンか照明をつけたり消したりするとそれぞれ300W,100Wくらい変化するようにしてみました。ただし、瞬時値をどういじっても、履歴データは完全ランダムに追加されていきますので悪しからず。もし返答される値を好きに設定したい場合は、SoftElectricEnergyMeterクラスの最後のほうにあるgetInstantaneousEnergy()やgetCumlativeEnergy()を変更してください。
+
 
 # Contributors
 [Shigeru Owada](https://github.com/sowd)  
