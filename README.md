@@ -1,6 +1,7 @@
 # MoekadenRoom - An ECHONET Lite Emulator
 エアコン、照明、電動ブラインド、電子錠、温度計、いいかげんなスマートメーターの合計６種類の機器オブジェクトが含まれています。
 Processingで作られています。
+
 ![](misc/MoekadenRoomCap.png)
 
 ##Updates
@@ -8,7 +9,7 @@ Processingで作られています。
 2015/12/25 適当ですがスマートメーターオブジェクトを加えました。</font></p>  
 
 # Download executables
-以下からお好きなものを落として使ってください。Win64以外はJavaが必要だと思います。また、librariesフォルダ内にOpenECHO for ProcessingとControlP5が必要です。OpenECHOは<a href="https://github.com/SonyCSL/OpenECHO/tree/master/Processing/libraries" target="_blank">こちらから</a>落としてください。<a href="http://www.sojamo.de/libraries/controlP5/" target="_blank">ControlP5</a>はv2.2.5で確認しました。
+以下からお好きなものを落として使ってください。Win64以外はJavaが必要だと思います。また、Processing IDEから実行するにはlibrariesフォルダ内にOpenECHO for ProcessingとControlP5が必要です。OpenECHOは<a href="https://github.com/SonyCSL/OpenECHO/tree/master/Processing/libraries" target="_blank">こちらから</a>落としてください。<a href="http://www.sojamo.de/libraries/controlP5/" target="_blank">ControlP5</a>はv2.2.5で確認しました。
 
 + <a href="misc/application.windows64.zip?raw=true" target="_blank">Win64bit版+Java Runtime</a>
 + <a href="misc/application.windows32.zip?raw=true" target="_blank">Win32bit版</a>
