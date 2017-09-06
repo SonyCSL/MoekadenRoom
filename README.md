@@ -1,4 +1,4 @@
-# MoekadenRoom - An ECHONET Lite Emulator
+﻿# MoekadenRoom - An ECHONET Lite Emulator
 エアコン、照明、電動ブラインド、電子錠、温度計、スマートメーターの合計６種類の機器オブジェクトが含まれています。
 Processingで作られています。
 
@@ -10,10 +10,11 @@ Processingで作られています。
 2015/12/25 適当ですがスマートメーターオブジェクトを加えました。</font></p>  
 
 # Download executables
-以下からお好きなものを落として使ってください。Win64以外はJavaが必要だと思います。また、Processing IDEから実行するにはlibrariesフォルダ内にOpenECHO for ProcessingとControlP5が必要です。OpenECHOは<a href="https://github.com/SonyCSL/OpenECHO/tree/master/Processing/libraries" target="_blank">こちらから</a>落としてください。<a href="http://www.sojamo.de/libraries/controlP5/" target="_blank">ControlP5</a>はv2.2.5で確認しました。
+以下からお好きなものを落として使ってください。Win32以外はJavaが必要だと思います。また、Processing IDEから実行するにはlibrariesフォルダ内にOpenECHO for ProcessingとControlP5が必要です。OpenECHOは<a href="https://github.com/SonyCSL/OpenECHO/tree/master/Processing/libraries" target="_blank">こちらから</a>落としてください。<a href="http://www.sojamo.de/libraries/controlP5/" target="_blank">ControlP5</a>はv2.2.5で確認しました。
+Linux版はMoekadenRoomというファイルに実行属性をつけて走らせるとよいと思います。
 
-+ <a href="misc/application.windows64.zip?raw=true" target="_blank">Win64bit版+Java Runtime</a>
-+ <a href="misc/application.windows32.zip?raw=true" target="_blank">Win32bit版</a>
++ <a href="misc/application.windows64.zip?raw=true" target="_blank">Win64bit版</a>
++ <a href="misc/application.windows32.zip?raw=true" target="_blank">Win32bit版+Java Runtime</a>
 + <a href="misc/application.linux-armv6hf.zip?raw=true" target="_blank">Linuxarmv6hf版</a>
 + <a href="misc/application.linux64.zip?raw=true" target="_blank">Linux64bit版</a>
 + <a href="misc/application.linux32.zip?raw=true" target="_blank">Linux32bit版</a>
