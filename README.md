@@ -4,9 +4,10 @@ Processingで作られています。
 
 ![](misc/MoekadenRoomCap.png)
 
-##Updates
+## Updates
+2017/9/6 zipの中身が古かったのでexportし直しました。Mac向け解説をREADMEに追加しました。[@ikesato](https://github.com/ikesato)さんサンクス！  
 2016/12/5 スマートメーターの実装をちょっとだけよくしたのと瞬時値・履歴データを画面に表示するようにしました。  
-2016/12/2 <a href="https://github.com/issekiamp" target="_blank">一石アンプさん</a>のおかげでProcessing3に対応しました。  
+2016/12/2 <a href="https://github.com/issekiamp" target="_blank">一石アンプさん</a>のおかげでProcessing3に対応しました。  
 2015/12/25 適当ですがスマートメーターオブジェクトを加えました。</font></p>  
 
 # Download executables
@@ -19,11 +20,26 @@ Linux版はMoekadenRoomというファイルに実行属性をつけて走らせ
 + <a href="misc/application.linux64.zip?raw=true" target="_blank">Linux64bit版</a>
 + <a href="misc/application.linux32.zip?raw=true" target="_blank">Linux32bit版</a>
 
-※Mac版はExportできなかったためありません。ごめんなさい。
-
-※ソースコードのライセンスは<a href="http://sourceforge.jp/projects/opensource/wiki/licenses%2FMIT_license" target="_blank">MITライセンス</a>にします。ただし、画像はそのまま二次利用しないでください。
-
+※Macは次項を参照してください。  
+※ソースコードのライセンスは<a href="http://sourceforge.jp/projects/opensource/wiki/licenses%2FMIT_license" target="_blank">MITライセンス</a>にします。ただし、画像はそのまま二次利用しないでください。  
 ※中で使っている<a href="https://github.com/SonyCSL/OpenECHO" title="OpenECHO site" target="_blank">OpenECHO</a>もMITです。<a href="http://www.sojamo.de/libraries/controlP5/" title="Control P5 page" target="_blank">ControlP5</a>はLGPLです。
+
+### Macの場合  
+作者はMacを持っていないので、試した方からの受け売りになります。[@ikesato](https://github.com/ikesato)さんありがとうございます！:
+
+Mac の IDE で動かす場合、 ここ にある controlP5.jar では動きませんでした。バージョンがあっていないのかもしれません。以下の手順が必要でした。
+
+1. Processing で MoekadenRoom.pde を開く
+2. メニュー > スケッチ > ライブラリをインポート... > ライブラリを追加
+3. テキストボックスに controlP5 を入力し "install" ボタンをクリックしインストール。version は 2.2.6 でした。
+4. メニュー > スケッチ > ファイルを追加
+5. 下のURLから OpenECHO.jar を直接ダウンロードし、ファイル選択ダイアログで jar ファイル指定
+https://github.com/SonyCSL/OpenECHO/blob/master/Processing/libraries/OpenECHO/library/OpenECHO.jar
+6. 再生をクリック
+7. 完了
+
+#### 環境
+macOS Sierra 10.12.4 / Processing 3.3.4 / controlP5 2.2.6
 
 # 使用方法
 + このアプリは2種類の入力を受け付けます。1. ECHONET Liteネットワークからの入力、2. ユーザーのマウスによる入力です。
@@ -114,5 +130,4 @@ Linux版はMoekadenRoomというファイルに実行属性をつけて走らせ
 [Shigeru Owada](https://github.com/sowd)  
 [Fumiaki Tokuhisa](https://github.com/tokuhisa)  
 [Issekiamp san](https://github.com/issekiamp)  
-
-Project page: http://kadecot.net/blog/1479/  (Japanese)
+[@ikesato san](https://github.com/ikesato)  
