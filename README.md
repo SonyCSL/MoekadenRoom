@@ -5,10 +5,10 @@ Processingで作られています。
 ![](misc/MoekadenRoomCap.png)
 
 ## Updates
-2017/9/6 zipの中身が古かったのでexportし直しました。Mac向け解説をREADMEに追加しました。[@ikesato](https://github.com/ikesato)さんサンクス！  
-2016/12/5 スマートメーターの実装をちょっとだけよくしたのと瞬時値・履歴データを画面に表示するようにしました。  
+2017/9/6 zipの中身が古かったのでexportし直しました。あと_f_Back/も全zipに追加しました。Mac向け解説をREADMEに追加しました。[@ikesato](https://github.com/ikesato)さんありがとうございます！<br />
+2016/12/5 スマートメーターの実装をちょっとだけよくしたのと瞬時値・履歴データを画面に表示するようにしました。  <br />
 2016/12/2 Processing3に対応しました。<a href="https://github.com/issekiamp" target="_blank">一石アンプさん</a>ありがとうございます！<br />
-2015/12/25 適当ですがスマートメーターオブジェクトを加えました。</font></p>  
+2015/12/25 適当ですがスマートメーターオブジェクトを加えました。</font><br />
 
 # Download executables
 以下からお好きなものを落として使ってください。Win32以外はJavaが必要だと思います。また、Processing IDEから実行するにはlibrariesフォルダ内にOpenECHO for ProcessingとControlP5が必要です。OpenECHOは<a href="https://github.com/SonyCSL/OpenECHO/tree/master/Processing/libraries" target="_blank">こちらから</a>落としてください。<a href="http://www.sojamo.de/libraries/controlP5/" target="_blank">ControlP5</a>はv2.2.5で確認しました。
