@@ -7,7 +7,7 @@ Processingで作られています。
 ## Updates
 2017/9/6 zipの中身が古かったのでexportし直しました。Mac向け解説をREADMEに追加しました。[@ikesato](https://github.com/ikesato)さんサンクス！  
 2016/12/5 スマートメーターの実装をちょっとだけよくしたのと瞬時値・履歴データを画面に表示するようにしました。  
-2016/12/2 <a href="https://github.com/issekiamp" target="_blank">一石アンプさん</a>のおかげでProcessing3に対応しました。  
+2016/12/2 Processing3に対応しました。<a href="https://github.com/issekiamp" target="_blank">一石アンプさん</a>ありがとうございます！<br />
 2015/12/25 適当ですがスマートメーターオブジェクトを加えました。</font></p>  
 
 # Download executables
@@ -25,7 +25,7 @@ Linux版はMoekadenRoomというファイルに実行属性をつけて走らせ
 ※中で使っている<a href="https://github.com/SonyCSL/OpenECHO" title="OpenECHO site" target="_blank">OpenECHO</a>もMITです。<a href="http://www.sojamo.de/libraries/controlP5/" title="Control P5 page" target="_blank">ControlP5</a>はLGPLです。
 
 ### Macの場合  
-作者はMacを持っていないので、試した方からの受け売りになります。[@ikesato](https://github.com/ikesato)さんありがとうございます！:
+作者はMacを持っていないので、試した[@ikesato](https://github.com/ikesato)さんからの受け売りになります:
 
 Mac の IDE で動かす場合、 ここ にある controlP5.jar では動きませんでした。バージョンがあっていないのかもしれません。以下の手順が必要でした。
 
@@ -130,4 +130,4 @@ macOS Sierra 10.12.4 / Processing 3.3.4 / controlP5 2.2.6
 [Shigeru Owada](https://github.com/sowd)  
 [Fumiaki Tokuhisa](https://github.com/tokuhisa)  
 [Issekiamp san](https://github.com/issekiamp)  
-[@ikesato san](https://github.com/ikesato)  
+[ikesato san](https://github.com/ikesato)  
