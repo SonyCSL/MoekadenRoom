@@ -915,7 +915,7 @@ void setup() {
         ,exTempSensor
         ,lock
         ,smartMeter
-        , buzzer
+        //, buzzer
       });
       
       pw = aircon.mStatus[0]-0x30 ;
