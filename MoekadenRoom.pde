@@ -553,6 +553,14 @@ public class SoftBuzzerImpl extends Buzzer {
     return true ;
   }
   protected byte[] getBuzzerSoundType() { return mBuzzerSoundType; }
+
+  @Override
+  protected void setupPropertyMaps(){
+    super.setupPropertyMaps() ;
+    addGetProperty( EPC_BUZZER_SOUND_TYPE ); // 0xE0
+    addSetProperty( EPC_BUZZER_SOUND_TYPE ); // 0xE0
+  }  
+
 }
 
 SoftBuzzerImpl buzzer ;
