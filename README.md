@@ -7,8 +7,9 @@ It contains 6 kinds of home equipments: air conditioner, lighting, electric blin
 # Download executables
 Please download the desired version from the links below. Java runtime is necessary except Win32 ver. To execute in Processing IDE, you need two libraries: <a href="https://github.com/SonyCSL/OpenECHO" title="OpenECHO site" target="_blank">OpenECHO for Processing</a> and ControlP5. Put [those](https://github.com/SonyCSL/MoekadenRoom/blob/master/misc/RequiredLibs.zip?raw=true) in the **libraries** folder. For the Linux version, set runnable permission to the file named MoekadenRoom.
 
-+ <a href="misc/application.windows64.zip?raw=true" target="_blank">Win64</a>
-+ <a href="misc/application.windows32.zip?raw=true" target="_blank">Win32+Java Runtime</a>
++ <a href="misc/application.windows64.zip?raw=true" target="_blank">Win64+Java Runtime</a>
++ <a href="misc/application.windows32.zip?raw=true" target="_blank">Win32</a>
++ <a href="misc/application.linux-arm64.zip?raw=true" target="_blank">Linux arm64</a>
 + <a href="misc/application.linux-armv6hf.zip?raw=true" target="_blank">Linux armv6hf</a>
 + <a href="misc/application.linux64.zip?raw=true" target="_blank">Linux64</a>
 + <a href="misc/application.linux32.zip?raw=true" target="_blank">Linux32</a>
