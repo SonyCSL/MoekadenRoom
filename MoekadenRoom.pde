@@ -636,7 +636,7 @@ public class SoftElectricEnergyMeter extends SmartElectricEnergyMeter  {
 	float energy = getCumlativeEnergy( 0 , getLatestIndexHalfHour() ) ;
 	setIntValueTo4Bytes( (energy>=0 ? (int)(energy / getCumUnit()) : 0xFFFFFFFE)
 		, measuredCumulativeAmountOfElectricEnergyNormalDirection
-		, 4 ) ;
+		, 0 ) ; // Previously 4
         return measuredCumulativeAmountOfElectricEnergyNormalDirection ;
     }
 
@@ -723,7 +723,7 @@ public class SoftElectricEnergyMeter extends SmartElectricEnergyMeter  {
   // 下の方の getCumlativeEnergy() から計算される。計測年月日・時刻は現在時刻にセットされる。
     @Override
     protected byte[] getCumulativeAmountsOfElectricEnergyMeasuredAtFixedTimeNormalDirection() {
-      byte[] ret = new byte[15] ;
+      byte[] ret = new byte[11] ;
 
       Calendar c = Calendar.getInstance();
       ret[0] = (byte)(c.get(Calendar.YEAR)/256) ;
