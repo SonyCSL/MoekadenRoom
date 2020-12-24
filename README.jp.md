@@ -6,6 +6,7 @@ Processingで作られています。
 ![](misc/MoekadenRoomCap.png)
 
 ## Updates
+2020/12/24 [moscow4ghさん](https://github.com/moscow4gh)によるスマートメーターのバグフィックスを適用。<br />
 2017/9/20 ControlP5はWindowsやLinuxで動かした際にもOutdatedだったので、いっそのこと[misc/RequiredLibs.zip](https://github.com/SonyCSL/MoekadenRoom/blob/master/misc/RequiredLibs.zip?raw=true)に入れました。Mac版の特別な説明を削除しました。<br />
 2017/9/6 zipの中身が古かったのでexportし直しました。あと_f_Back/も全zipに追加しました。Mac向け解説をREADMEに追加しました。[@ikesato](https://github.com/ikesato)さんありがとうございます！<br />
 2016/12/5 スマートメーターの実装をちょっとだけよくしたのと瞬時値・履歴データを画面に表示するようにしました。  <br />
@@ -16,11 +17,12 @@ Processingで作られています。
 以下からお好きなものを落として使ってください。Win32以外はJavaが必要だと思います。また、Processing IDEから実行するにはlibrariesフォルダ内にOpenECHO for ProcessingとControlP5が必要です。一応[固めておきました](https://github.com/SonyCSL/MoekadenRoom/blob/master/misc/RequiredLibs.zip?raw=true)。
 Linux版はMoekadenRoomというファイルに実行属性をつけて走らせるとよいと思います。
 
-+ <a href="misc/application.windows64.zip?raw=true" target="_blank">Win64bit版</a>
-+ <a href="misc/application.windows32.zip?raw=true" target="_blank">Win32bit版+Java Runtime</a>
-+ <a href="misc/application.linux-armv6hf.zip?raw=true" target="_blank">Linuxarmv6hf版</a>
-+ <a href="misc/application.linux64.zip?raw=true" target="_blank">Linux64bit版</a>
-+ <a href="misc/application.linux32.zip?raw=true" target="_blank">Linux32bit版</a>
++ <a href="misc/application.windows64.zip?raw=true" target="_blank">Win64+Java Runtime</a>
++ <a href="misc/application.windows32.zip?raw=true" target="_blank">Win32</a>
++ <a href="misc/application.linux-arm64.zip?raw=true" target="_blank">Linux arm64</a>
++ <a href="misc/application.linux-armv6hf.zip?raw=true" target="_blank">Linux armv6hf</a>
++ <a href="misc/application.linux64.zip?raw=true" target="_blank">Linux64</a>
++ <a href="misc/application.linux32.zip?raw=true" target="_blank">Linux32</a>
 
 ※Macはエクスポートできなかったので、Processing IDEから実行してください。  
 ※ソースコードのライセンスは<a href="http://sourceforge.jp/projects/opensource/wiki/licenses%2FMIT_license" target="_blank">MITライセンス</a>にします。ただし、画像はそのまま二次利用しないでください。  
